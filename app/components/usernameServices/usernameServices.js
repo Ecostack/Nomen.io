@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.usernameServices', [])
-    .factory('UsernameService', ['lodash', function (lodash) {
+    .factory('UsernameService', ['$filter', function ( $filter) {
         var possibleEndings = [
             '', 'dur', 'san', 'go', 'us', 'o', 'dra', 'an'
         ]
@@ -19,7 +19,7 @@ angular.module('myApp.usernameServices', [])
 
         var lcIsVowel = function (pChar) {
             var lcReturn = false;
-            lodash.each(vowel, function (pItem) {
+            angular.forEach(vowel, function (pItem) {
                 if (pItem == pChar) {
                     lcReturn = true;
                     return false;
@@ -91,7 +91,7 @@ angular.module('myApp.usernameServices', [])
                 lcReturn += lcGetNewChar(true);
             }
             //if (randomIntFromInterval(1, 2) == 1) {
-                lcReturn += lcGetNewChar(false);
+            lcReturn += lcGetNewChar(false);
             //}
             return lcReturn;
         }
@@ -99,7 +99,7 @@ angular.module('myApp.usernameServices', [])
         var lcGen2 = function () {
             var lcNameLength = randomIntFromInterval(2, 3);
             var lcReturn = '';
-            for (var i=0;i<lcNameLength;i++) {
+            for (var i = 0; i < lcNameLength; i++) {
                 lcReturn += lcGetSyllab()
             }
             return capitalizeFirstLetter(lcReturn);
@@ -113,7 +113,8 @@ angular.module('myApp.usernameServices', [])
                 for (var i = 0; i < pCount; i++) {
                     lcReturn.push(lcGen2());
                 }
-                lcReturn = lodash.sortBy(lcReturn);
+
+                lcReturn = $filter('orderBy')(lcReturn);
 
                 return lcReturn;
             }
